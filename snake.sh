@@ -42,7 +42,7 @@ function randomFood(){
     done
     if [[ $k = 0 ]]; then
         clear
-        echo you win
+        echo you win ! press q to exit!
         sleep 1
         exit 0
     fi
@@ -71,14 +71,14 @@ function updateSnake(){
     done
     if [[ $snakebody != ${#snake[*]} ]]; then
         clear
-        echo you lose bite yourself!
+        echo you lose bite yourself! press q to exit!
         exit 0
     fi
 }
 
 
 function printfHelp() {
-    printf "use a d to move left and right ,q to exit \n"
+    printf "use key a s w d to move left down up right,q to exit \n"
 }
 
 function printfGameBload() {

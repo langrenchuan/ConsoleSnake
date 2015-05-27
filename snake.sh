@@ -27,6 +27,7 @@ function init() {
     for (( i = 3; i < height*width; i++ )); do
         board[$i]=$road;
     done
+    randomFood
 }
 
 
@@ -40,16 +41,20 @@ function randomFood(){
         fi
     done
     if [[ $k = 0 ]]; then
-        echo gameover 
+        clear
+        echo you win
+        sleep 1
         exit 0
     fi
     ran=$[ RANDOM % k ]
-    board[${temp[$ran]}]=$food;
+    board[${temp[$ran]}]=$food
 }
 
 function updateSnake(){
     for (( i = 0;i < height*width;i++));do
-        board[$i]=$road;
+        if [[ ${board[$i]} != $food ]]; then
+            board[$i]=$road;
+        fi
     done
     length=$((${#snake[*]}-1))
     for (( k = length; k > 0; k--)); do
@@ -58,6 +63,17 @@ function updateSnake(){
     done
     temp=(${snake[0]})
     board[$((${temp[0]}*width+${temp[1]}))]=$head
+    snakebody=0
+    for (( i = 0;i < height*width;i++));do
+         if [[ ${board[i]} = $head || ${board[i]} = $body ]]; then
+            (( snakebody++ )) 
+         fi
+    done
+    if [[ $snakebody != ${#snake[*]} ]]; then
+        clear
+        echo you lose bite yourself!
+        exit 0
+    fi
 }
 
 
@@ -169,9 +185,16 @@ function moveon() {
                 esac
                 ;;
         esac
+        temp=(${snake[0]})
+        if [[ ${board[((${temp[0]}*$width+${temp[1]}))]} = $food ]]; then
+            snake[$length+1]=$last
+            echo ${snake[*]}
+            updateSnake
+            randomFood
+        else
+            updateSnake
+        fi
         clear
-        updateSnake
-        randomFood
         printfHelp
         printfGameBload
         cat .direct

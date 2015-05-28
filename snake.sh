@@ -42,6 +42,7 @@ function randomFood(){
     done
     if [[ $k = 0 ]]; then
         clear
+        printfGameBload
         echo you win ! press q to exit!
         sleep 1
         exit 0
@@ -71,6 +72,7 @@ function updateSnake(){
     done
     if [[ $snakebody != ${#snake[*]} ]]; then
         clear
+        printfGameBload
         echo you lose bite yourself! press q to exit!
         exit 0
     fi
@@ -198,7 +200,7 @@ function moveon() {
         printfHelp
         printfGameBload
         cat .direct
-        sleep 1
+        sleep 0.5
     done
 }
 

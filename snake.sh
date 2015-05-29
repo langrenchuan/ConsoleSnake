@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 head="D";body="0";food="I";road="-"
-height=10;width=30;board=();snake=();iseat=false;
+height=10;width=30;board=();snake=();
 RED='\e[1;31m' ; GREEN='\e[1;32m' ; YELLOW='\e[1;33m' ; BLUE='\e[1;34m' ; MAGENTA='\e[1;35m' ; CYAN='\e[1;36m'; NOR='\e[m'; BOLD='\e[1m'
 
 function cprint {
@@ -42,7 +42,7 @@ function randomFood(){
     done
     if [[ $k = 0 ]]; then
         clear
-        printfGameBload
+        printBoard
         echo you win ! press q to exit!
         sleep 1
         exit 0
@@ -72,18 +72,18 @@ function updateSnake(){
     done
     if [[ $snakebody != ${#snake[*]} ]]; then
         clear
-        printfGameBload
+        printBoard
         echo you lose bite yourself! press q to exit!
         exit 0
     fi
 }
 
 
-function printfHelp() {
+function printHelp() {
     printf "use key a s w d to move left down up right,q to exit \n"
 }
 
-function printfGameBload() {
+function printBoard() {
     for (( i = 0; i < height; i++ )); do
         for (( j = 0; j < width; j++ )); do
             cprint ${board[i*width+j]} 
@@ -190,16 +190,14 @@ function moveon() {
         temp=(${snake[0]})
         if [[ ${board[((${temp[0]}*$width+${temp[1]}))]} = $food ]]; then
             snake[$length+1]=$last
-            echo ${snake[*]}
             updateSnake
             randomFood
         else
             updateSnake
         fi
         clear
-        printfHelp
-        printfGameBload
-        cat .direct
+        printHelp
+        printBoard
         sleep 0.5
     done
 }

@@ -7,7 +7,7 @@ RED='\33[1;31m' ; GREEN='\33[1;32m' ; YELLOW='\33[1;33m' ; BLUE='\33[1;34m' ; MA
 Head=[CYAN,"D"];Body=[MAGENTA,"0"];Food=[BLUE,"I"];Road=[YELLOW,"-"];
 RIGHT=0;LEFT=1;UP=2;DOWN=3;
 Height=10;Width=30;Board=[];Snake=[];Direct=RIGHT
-
+IsAlive = True;
 
 if os.name=="nt":
     CLEAR="cls"
@@ -46,17 +46,21 @@ def printHelp():
 def randomFood():
     temp=[]
     global Board
+    global IsAlive
     for i in range(Width*Height):
         if Board[i] == Road :
             temp.append(i)
     if len(temp)==0:
         clear()
-        print "you win ! press q to exit!"
         printBoard()
-    Board[temp[random.randint(0,len(temp))]]=Food
+        print "you win ! press q to exit!"
+        IsAlive = False
+    else:
+        Board[temp[random.randint(0,len(temp)-1)]]=Food
 
 def updateSnake():
     global Board
+    global IsAlive
     for i in range(Height*Width):
         if Board[i] != Food:
             Board[i]=Road
@@ -67,10 +71,11 @@ def updateSnake():
         clear()
         printBoard()
         print "you lose bite yourself! press q to exit!"
-        exit()
+        IsAlive = False
 
 def moveon():
     global Snake
+    global IsAlive
     while True:
         SnakeHead = copy.deepcopy(Snake[0])
         SnakeTail = copy.deepcopy(Snake[-1])
@@ -101,10 +106,12 @@ def moveon():
             randomFood()
         else:
             updateSnake()
+        if not IsAlive:
+            break
         clear()
         printHelp()
         printBoard()
-        time.sleep(0.1)
+        time.sleep(0.3)
 
 
 
@@ -131,7 +138,6 @@ def moveRight():
 def control():
     while True:
         c=getchar()
-        print c,"c"
         if c=="w" or c=="W":
             moveUp()
         elif c=="s" or c=="S":

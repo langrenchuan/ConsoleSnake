@@ -4,4 +4,3 @@
 
 #snake.py
 *python版本
-*尚有bug待解决

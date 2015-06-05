@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os,random,sys,time,copy,thread
+import os,random,sys,time,copy,threading
 from getChar import _Getch
 
 RED='\33[1;31m' ; GREEN='\33[1;32m' ; YELLOW='\33[1;33m' ; BLUE='\33[1;34m' ; MAGENTA='\33[1;35m' ; CYAN='\33[1;36m'; NOR='\33[m'; BOLD='\33[1m'
@@ -131,6 +131,7 @@ def moveRight():
 def control():
     while True:
         c=getchar()
+        print c,"c"
         if c=="w" or c=="W":
             moveUp()
         elif c=="s" or c=="S":
@@ -143,7 +144,9 @@ def control():
             exit()
 def gameStart():
     init()
-    thread.start_new_thread(moveon,())
+    t1 = threading.Thread(target=moveon)
+    t1.setDaemon(True)
+    t1.start()
     control()
 
 if __name__ == '__main__': # a little test

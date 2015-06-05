@@ -5,9 +5,9 @@ class _Getch:
             self.impl = _GetchWindows()
         except ImportError:
             try:
-                self.impl = _GetchMacCarbon()
-            except AttributeError:
                 self.impl = _GetchUnix()
+            except AttributeError:
+                self.impl = _GetchMacCarbon()
 
     def __call__(self): return self.impl()
 
@@ -20,7 +20,8 @@ class _GetchUnix:
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         try:
-            tty.setraw(sys.stdin.fileno())
+            tty.setcbreak(sys.stdin.fileno())
+            termios.tcflush(sys.stdin, termios.TCIOFLUSH)
             ch = sys.stdin.read(1)
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)

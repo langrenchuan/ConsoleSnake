@@ -117,7 +117,8 @@ def moveon():
 
 def clear():
     """clear game board"""
-    os.system(CLEAR)
+    sys.stdout.write('\033[1;1H\033[2J')
+    #os.system(CLEAR)
 
 def moveUp():
     global Direct

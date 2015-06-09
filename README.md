@@ -9,4 +9,4 @@ python版本
 erlang版本,输入wasd后需要输入回车
 
 #运行效果
-<img src=""></img>
+<img src="https://raw.githubusercontent.com/langrenchuan/ConsoleSnake/master/snake.gif"></img>
